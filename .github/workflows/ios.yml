@@ -89,7 +89,8 @@ jobs:
 
       - name: Compiler errors
         if: failure()
-        run: grep -E "(error|warning: unable|fatal error):" "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -150 || true
+        run: |
+          grep -E "(error|fatal error):" "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -150 || true
 
       - name: Upload build log
         if: failure()

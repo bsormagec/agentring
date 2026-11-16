@@ -1,0 +1,30 @@
+{
+  "description": "APNs alert push for msg.new from the agent. The alert text is a placeholder; the Notification Service Extension verifies agentring.sig and shows the message.",
+  "push_secret": "q8Vx0m3cJ5a1n1wYg7Kc9b2dE4fH6iL8oP0rS2tU4vA",
+  "path": "/3/device/<token>",
+  "headers": {
+    "apns-push-type": "alert",
+    "apns-topic": "dev.agentring.app",
+    "apns-priority": "10",
+    "apns-expiration": "1763619200"
+  },
+  "headers_note": "apns-expiration = now + 28 days (here: the event ts + 28 days).",
+  "payload": {
+    "aps": {
+      "alert": {
+        "title": "Claude",
+        "body": "New message"
+      },
+      "mutable-content": 1,
+      "sound": "default",
+      "thread-id": "rly_01JB0000000000000000000010",
+      "category": "AGENTRING_MESSAGE"
+    },
+    "agentring": {
+      "v": "1",
+      "relay_id": "rly_01JB0000000000000000000010",
+      "event": "{\"type\":\"msg.new\",\"id\":\"evt_01JB0000000000000000000003\",\"ts\":1761200000000,\"seq\":45,\"msg_id\":\"msg_01JB0000000000000000000004\",\"from\":\"agent\",\"text\":\"Build finished ✅\"}",
+      "sig": "2bTXB6rfWn6PpznOF-vi1Jz4m8vxs3XWqlx7x8q0IjE"
+    }
+  }
+}

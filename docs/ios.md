@@ -188,6 +188,10 @@ relay ─(3) POST /v1/send { handle, push_type, payload, expiration, collapse_id
   so a leaked handle can't be used to spam a phone. Abuse is bounded anyway: the
   app verifies `sig`, and a VoIP push that fails verification is reported to
   CallKit and ended immediately (`.failed`) without ringing on.
+- The gateway rebuilds `aps` from an allowlist: alert pushes always show the title
+  "agentring" and a fixed body ("New message" / "Missed call"), so a leaked handle
+  can't make a phone show text of the holder's choosing. The extension puts in the
+  agent's name and the real text only after verifying `sig`.
 - `410 Unregistered` from APNs is passed back as `unregistered: true`, and the relay
   drops the handle like an `UNREGISTERED` FCM token.
 - Optional: App Attest on `/v1/register`, so only the genuine app can get handles.

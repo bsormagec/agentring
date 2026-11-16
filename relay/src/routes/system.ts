@@ -17,6 +17,7 @@ export function systemRoutes(app: FastifyInstance, ctx: Ctx): void {
       agent_name: ctx.cfg.agentName,
       agent_online: ctx.hub.isAgentOnline(),
       push_provider: ctx.pushProviderName,
+      push_providers: ctx.pushProviders,
       active_call: (() => {
         const open = ctx.calls?.open();
         return open && canSee(open, principal(req)) ? callFromRow(open) : null;

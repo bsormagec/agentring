@@ -5,7 +5,7 @@
  * secret, API key, event log and calls, mounted under `/t/{tenant_id}`. The hub
  * strips that prefix and hands the raw request (or WebSocket upgrade) to the
  * tenant's Fastify instance, so the relay API is exactly the same as self-hosted.
- * FCM and LiveKit are shared; LiveKit rooms are prefixed with the tenant id.
+ * FCM, APNs and LiveKit are shared; LiveKit rooms are prefixed with the tenant id.
  *
  * The hub's own Fastify app serves `/healthz`, the admin API (`/admin/v1/*`, for
  * the control plane) and the shared LiveKit webhook.
@@ -23,6 +23,8 @@ import { type Config, trustedHops } from "../config.js";
 import { ApiError, notFound, unauthorized } from "../errors.js";
 import { newId, randomToken } from "../ids.js";
 import { LiveKitServer, type LiveKitService } from "../livekit.js";
+import { ApnsProvider } from "../push/apns.js";
+import { ApnsGatewayProvider } from "../push/apns-gateway.js";
 import { FcmProvider } from "../push/fcm.js";
 import type { PushProvider } from "../push/push-provider.js";
 import { type Limits, UNLIMITED, usage } from "../quota.js";
@@ -43,6 +45,8 @@ export interface HubOptions {
   adminToken: string;
   logger?: boolean;
   pushProvider?: PushProvider;
+  apnsProvider?: PushProvider;
+  apnsGatewayProvider?: PushProvider;
   livekit?: LiveKitService;
   idleUnloadMs?: number;
 }
@@ -93,6 +97,8 @@ export class Hub {
    */
   private readonly agentTokens = new Map<string, { tenantId: string; expiresAt: number }>();
   private readonly provider?: PushProvider;
+  private readonly apns?: PushProvider;
+  private readonly apnsGateway?: PushProvider;
   private readonly livekit?: LiveKitService;
   private sweeper?: NodeJS.Timeout;
   log!: FastifyBaseLogger;
@@ -103,6 +109,10 @@ export class Hub {
   ) {
     this.registry = new Registry(cfg.dataDir === ":memory:" ? ":memory:" : join(cfg.dataDir, "hub.db"));
     this.provider = opts.pushProvider ?? (cfg.fcm ? new FcmProvider(cfg.fcm.serviceAccountFile, cfg.fcm.apiBase) : undefined);
+    // One APNs key (the App Store app's publisher's) for every tenant, like the shared FCM project.
+    this.apns = opts.apnsProvider ?? (cfg.apns ? new ApnsProvider(cfg.apns) : undefined);
+    this.apnsGateway =
+      opts.apnsGatewayProvider ?? (cfg.apnsGateway ? new ApnsGatewayProvider(cfg.apnsGateway.url, cfg.apnsGateway.topic) : undefined);
     this.livekit = opts.livekit ?? (cfg.livekit ? new LiveKitServer(cfg.livekit) : undefined);
   }
 
@@ -145,6 +155,8 @@ export class Hub {
     t.built = await buildApp(cfg, {
       loggerInstance: this.log.child({ tenant: tenantId }),
       pushProvider: this.provider,
+      apnsProvider: this.apns,
+      apnsGatewayProvider: this.apnsGateway,
       livekit: this.livekit,
       tenant: {
         apiKeyHash: () => t.record.api_key_hash,
@@ -336,6 +348,8 @@ export class Hub {
   async close(): Promise<void> {
     clearInterval(this.sweeper);
     await Promise.all([...this.loaded.keys()].map((id) => this.unload(id)));
+    // Shared providers the hub built itself (injected ones belong to the caller).
+    if (!this.opts.apnsProvider) await this.apns?.close?.();
     this.registry.close();
   }
 }

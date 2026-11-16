@@ -1,0 +1,21 @@
+{
+  "description": "APNs VoIP push (PushKit) for call.invite, signed with the signature-vector push_secret. Only call.invite is ever a VoIP push.",
+  "push_secret": "q8Vx0m3cJ5a1n1wYg7Kc9b2dE4fH6iL8oP0rS2tU4vA",
+  "path": "/3/device/<token>",
+  "headers": {
+    "apns-push-type": "voip",
+    "apns-topic": "dev.agentring.app.voip",
+    "apns-priority": "10",
+    "apns-expiration": "1761200030"
+  },
+  "headers_note": "apns-expiration = expires_at of the invite (UNIX seconds).",
+  "payload": {
+    "aps": {},
+    "agentring": {
+      "v": "1",
+      "relay_id": "rly_01JB0000000000000000000010",
+      "event": "{\"type\":\"call.invite\",\"id\":\"evt_01JB0000000000000000000001\",\"ts\":1761200000000,\"seq\":41,\"call_id\":\"call_01JB0000000000000000000002\",\"direction\":\"agent_to_user\",\"agent_name\":\"Claude\",\"reason\":\"Deploy to prod is ready, need your go/no-go\",\"priority\":\"urgent\",\"expires_at\":1761200030000}",
+      "sig": "3MD_NlNXvg5KdVoeY1F4m1awEIba4t441tDahVmS34o"
+    }
+  }
+}

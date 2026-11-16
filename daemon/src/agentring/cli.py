@@ -476,13 +476,13 @@ def status(json_out: JsonOpt = False) -> None:
     typer.echo(f"Relay:       {s.relay_url} ({st['relay_id']}, v{st['version']})")
     typer.echo(f"Agent name:  {st['agent_name']}")
     typer.echo(f"Daemon:      {'connected (serve running)' if st['agent_online'] else 'not connected'}")
-    typer.echo(f"Push:        {st['push_provider']}")
+    typer.echo(f"Push:        {', '.join(st.get('push_providers') or []) or st['push_provider']}")
     if not devs:
         typer.echo("Devices:     none — run `agentring pair`")
     for d in devs:
         seen = _fmt_ts(d["last_seen_at"]) if d.get("last_seen_at") else "never"
         push = "push ok" if d["has_push_token"] else "NO push token"
-        typer.echo(f"Device:      {d['name']} ({d['device_id']}) — {push}, last seen {seen}")
+        typer.echo(f"Device:      {d['name']} ({d['device_id']}, {d.get('platform', 'android')}) — {push}, last seen {seen}")
 
 
 @devices_app.callback(invoke_without_command=True)
@@ -507,7 +507,7 @@ def devices_list(
         typer.echo("No devices paired.")
     for d in devs:
         state = f"revoked {_fmt_ts(d['revoked_at'])}" if d.get("revoked_at") else "active"
-        typer.echo(f"{d['device_id']}  {d['name']:<24} paired {_fmt_ts(d['created_at'])}  {state}")
+        typer.echo(f"{d['device_id']}  {d['name']:<24} {d.get('platform', 'android'):<8} paired {_fmt_ts(d['created_at'])}  {state}")
 
 
 def _ai_call(reason: str, urgent: bool, agent_name: str | None, instructions: str | None, mcp: list[str] | None,

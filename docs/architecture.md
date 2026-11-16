@@ -176,6 +176,10 @@ CI fails if generated code is stale or a fixture doesn't round-trip.
     Telecom off on misbehaving devices. Research behind this: `docs/voip-research.md`.
 13. **Placeholder package id** `dev.agentring.app` for Android. Change it if you
     own a domain.
+14. **iOS push over APNs** (design in [ios.md](ios.md), setup in [apns.md](apns.md)):
+    direct APNs with a `.p8` key (cloud hub and self-hosters with their own key), a push
+    gateway for self-hosted relays + the App Store app, the same v1 signed payloads,
+    VoIP pushes only for `call.invite` (none for `call.end`).
 
 ## Milestone plan
 

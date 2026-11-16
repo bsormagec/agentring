@@ -78,6 +78,15 @@ const MIGRATIONS: string[] = [
   -- Targeted calls: JSON array of the device ids the call rings; NULL = every paired phone.
   ALTER TABLE calls ADD COLUMN device_ids TEXT;
   `,
+  `
+  -- iOS (docs/ios.md): APNs tokens (hex) and their host/topic, or an opaque push-gateway
+  -- handle instead. A device has either FCM or APNs data, never both.
+  ALTER TABLE devices ADD COLUMN apns_voip_token TEXT;
+  ALTER TABLE devices ADD COLUMN apns_alert_token TEXT;
+  ALTER TABLE devices ADD COLUMN apns_env TEXT CHECK (apns_env IN ('sandbox','production'));
+  ALTER TABLE devices ADD COLUMN apns_topic TEXT;
+  ALTER TABLE devices ADD COLUMN apns_gateway_handle TEXT;
+  `,
 ];
 
 export type Db = DatabaseSync;

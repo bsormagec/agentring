@@ -17,7 +17,11 @@ export interface Ctx {
   auth: Auth;
   events: EventLog;
   relayId: string;
-  pushConfig: PushConfig;
+  /** `push_config` for a pair request from this platform. */
+  pushConfigFor: (platform: "android" | "ios") => PushConfig;
+  /** `Status.push_providers`. */
+  pushProviders: Array<"fcm" | "apns" | "apns_gateway">;
+  /** `Status.push_provider` (deprecated). */
   pushProviderName: string;
   hub: WsHub;
   /** Undefined when LiveKit isn't configured: calls are then unavailable. */

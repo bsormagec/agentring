@@ -17,15 +17,18 @@ let hub: Hub;
 let url: string;
 let livekit: FakeLiveKit;
 let push: FakePush;
+let apns: FakePush;
 
 async function start(idleUnloadMs?: number) {
   livekit = new FakeLiveKit();
   push = new FakePush();
+  apns = new FakePush();
   ({ app, hub } = await buildHub(testConfig({ dataDir: dir }), {
     adminToken: ADMIN_TOKEN,
     logger: false,
     livekit,
     pushProvider: push,
+    apnsProvider: apns,
     idleUnloadMs,
   }));
   await app.listen({ host: "127.0.0.1", port: 0 });
@@ -79,6 +82,36 @@ describe("hub mode", () => {
     expect(s.json.agent_name).toBe("Claude");
     expect(s.json.device_count).toBe(0);
     expect((await http("GET", `/t/${a.tid}/healthz`)).json).toEqual({ ok: true });
+  });
+
+  it("shares one APNs provider across tenants, each signing with its own device secrets", async () => {
+    const a = await createTenant();
+    const b = await createTenant();
+    const pairIos = async (tid: string, token: string) => {
+      const t = await app.inject({ method: "POST", url: `/admin/v1/tenants/${tid}/pairing-tokens`, headers: ADMIN });
+      const { pairing_token } = t.json();
+      const r = await http("POST", `/t/${tid}/v1/pair`, {}, {
+        pairing_token,
+        device_name: "iPhone",
+        platform: "ios",
+        apns: { voip_token: token, alert_token: token, environment: "production" },
+      });
+      expect(r.status).toBe(201);
+      return r.json as { device_id: string; push_secret: string; relay_id: string; push_config: unknown };
+    };
+    const da = await pairIos(a.tid, "a".repeat(64));
+    const db = await pairIos(b.tid, "b".repeat(64));
+    expect(da.push_config).toEqual({ provider: "apns", apns: { topic: "dev.agentring.app", via_gateway: false } });
+    expect((await http("GET", `/t/${a.tid}/v1/status`, a.auth)).json.push_providers).toEqual(["fcm", "apns"]);
+    await http("POST", `/t/${a.tid}/v1/messages`, a.auth, { text: "for a" });
+    await http("POST", `/t/${b.tid}/v1/messages`, b.auth, { text: "for b" });
+    await new Promise((r) => setTimeout(r, 20));
+    expect(push.sent).toHaveLength(0);
+    expect(apns.sent.map((s) => [s.target.deviceId, s.target.token, s.payload.relay_id])).toEqual([
+      [da.device_id, "a".repeat(64), da.relay_id],
+      [db.device_id, "b".repeat(64), db.relay_id],
+    ]);
+    expect(da.relay_id).not.toBe(db.relay_id);
   });
 
   it("isolates tenants: keys, device tokens and data", async () => {

@@ -719,7 +719,7 @@ components:
     # ---------- system ----------
     Status:
       type: object
-      required: [relay_id, version, agent_name, agent_online, push_provider]
+      required: [relay_id, version, agent_name, agent_online, push_provider, push_providers]
       properties:
         relay_id: { $ref: "#/components/schemas/RelayId" }
         version: { type: string }
@@ -1165,5 +1165,5 @@ components:
       type: object
       required: [aps, agentring]
       properties:
-        aps: { type: object }
+        aps: { type: object, additionalProperties: true }
         agentring: { $ref: "#/components/schemas/PushData" }

@@ -106,14 +106,22 @@ hold fewer events than `limit`; page on its `next_after_seq`.
 
 ### Push (FCM)
 
-Sent through the `PushProvider` interface:
+Sent through the `PushProvider` interface. The dispatcher picks the provider per
+device: Android → FCM, iOS → APNs (directly, or through a push gateway when the device
+registered a gateway handle). See [Push (APNs)](#push-apns) for iOS.
 
 ```ts
 interface PushProvider {
-  readonly name: string;                       // "fcm" | "unifiedpush" (future)
+  readonly name: string;                       // "fcm" | "apns" | "apns_gateway"
   send(target: PushTarget, payload: PushPayload, opts: PushOptions): Promise<PushResult>;
 }
-interface PushOptions { ttlSeconds: number; highPriority: boolean; collapseKey?: string }
+interface PushTarget { deviceId: string; token: string; environment?: "sandbox" | "production"; topic?: string }
+interface PushOptions {
+  ttlSeconds: number; highPriority: boolean; collapseKey?: string;
+  kind?: "call" | "message" | "update";        // FCM ignores it; APNs: voip / alert / background
+  expiresAt?: number;                          // APNs apns-expiration (default now + ttl)
+  aps?: Record<string, unknown>;               // APNs only
+}
 type PushResult = { ok: true } | { ok: false; unregistered: boolean; error: string };
 ```
 
@@ -157,6 +165,85 @@ checks the call (`GET /v1/calls/{call_id}`) before offering anything.
 An `UNREGISTERED` FCM response clears the device's token (the app will
 re-send it via `POST /v1/device/fcm` on next start/refresh).
 
+### Push (APNs)
+
+iOS devices (`platform: "ios"`) are pushed over APNs (design: [ios.md](ios.md); setup:
+[apns.md](apns.md)). iOS only lets a **VoIP** push (PushKit) ring a locked phone, and
+every VoIP push must become a CallKit call, so only `call.invite` is one. Messages and
+missed calls are **alert** pushes (the system shows them; the app's Notification
+Service Extension rewrites them first), and "someone answered" is a best-effort
+**background** push.
+
+| Event | APNs push | `apns-priority` | `apns-expiration` | Other headers / `aps` |
+|---|---|---|---|---|
+| `call.invite` (`agent_to_user`) | `voip`, topic `<bundle id>.voip` | 10 | `expires_at` | `aps: {}` |
+| `call.end` | **none** (the app is awake while CallKit rings: WebSocket, 2 s poll, local timer at `expires_at`) | | | |
+| `call.missed` of an agent call | `alert` | 10 | now + 24 h | `apns-collapse-id` = `call_id`; title = the call's `agent_name`, body "Missed call", category `AGENTRING_MISSED`, `interruption-level: time-sensitive` when the call was `urgent` |
+| `call.accept` (`by: user`) of an agent call, to every phone except the one that joined | `background` | 5 | now + 1 h | `aps: {"content-available": 1}` |
+| `msg.new` (`from: agent`) | `alert` | 10 | now + 28 days | title = agent name, body "New message", category `AGENTRING_MESSAGE` |
+
+Every alert carries `mutable-content: 1`, `sound: "default"` and `thread-id` =
+`relay_id`. The visible text is always a placeholder, never the message: the extension
+verifies `sig` and only then puts the real text in. `call.decline` is not pushed, and a
+targeted call's pushes go only to its phones, as on Android.
+
+Payload (`ApnsPayload`): the signed `agentring` object is exactly the FCM `data` map
+(`PushData`), so the same verifier and the push signature vector apply. VoIP pushes
+are at most 5120 bytes, the others 4096; the 3000-byte cap on `event` leaves room for
+`aps`. Fixtures signed with the vector's `push_secret`:
+`protocol/examples/push/apns-voip.json`, `apns-alert.json`, `apns-alert-missed.json`.
+
+```json
+{
+  "aps": {},
+  "agentring": {
+    "v": "1",
+    "relay_id": "rly_01JB…",
+    "event": "{\"type\":\"call.invite\",…}",
+    "sig": "<base64url HMAC-SHA256(push_secret, event)>"
+  }
+}
+```
+
+```json
+{
+  "aps": {
+    "alert": { "title": "Claude", "body": "New message" },
+    "mutable-content": 1,
+    "sound": "default",
+    "thread-id": "rly_01JB…",
+    "category": "AGENTRING_MESSAGE"
+  },
+  "agentring": { "v": "1", "relay_id": "rly_01JB…", "event": "{\"type\":\"msg.new\",…}", "sig": "…" }
+}
+```
+
+Registration: `POST /v1/pair` with `platform: "ios"` and `apns`, or later
+`POST /v1/device/push-tokens`:
+
+```json
+{ "apns": { "voip_token": "<hex>", "alert_token": "<hex>", "environment": "sandbox", "topic": "dev.agentring.app" } }
+{ "apns": { "gateway_handle": "<from the push gateway's /v1/register>" } }
+```
+
+- Each call **replaces** the device's APNs registration: send both tokens every time.
+  `environment` is required with tokens (`sandbox` for Xcode debug builds,
+  `production` for TestFlight/App Store); `topic` defaults to the relay's
+  `AGENTRING_APNS_TOPIC`. Tokens and a handle are mutually exclusive.
+- An Android device can't register APNs data and an iOS device can't register an FCM
+  token (`400 invalid_request`), so a device has either kind, never both.
+- `push_config` in the pair response is chosen by `platform`. For iOS:
+  `{"provider":"apns","apns":{"topic":"dev.agentring.app","via_gateway":false}}`, or
+  with `via_gateway: true` and `gateway_url` when the relay pushes through a gateway,
+  or `null` when it can't push to iOS at all (the app then only gets events while
+  open). The app compares `topic` with its own bundle id.
+- `GET /v1/status` lists `push_providers` (`fcm`, `apns`, `apns_gateway`);
+  `GET /v1/devices` shows each device's `platform`, and `has_push_token` is true when
+  it has any token (FCM, either APNs token, or a gateway handle).
+- APNs `410`, or `400` `BadDeviceToken` / `Unregistered` / `DeviceTokenNotForTopic`,
+  clears that token (only the VoIP or the alert one); a gateway's `410` (or a handle
+  it can't open) clears the handle.
+
 ## Flows
 
 ### Pairing
@@ -174,6 +261,10 @@ app scans QR
 app stores device_jwt + push_secret (SecretStore: AES-GCM with an Android Keystore key)
 FirebaseMessagingService.onNewToken → POST /v1/device/fcm { fcm_token }
 ```
+
+An iPhone pairs the same way with `platform: "ios"` and `apns` instead of
+`fcm_token`, and refreshes its tokens with `POST /v1/device/push-tokens`
+(see [Push (APNs)](#push-apns)).
 
 `agentring pair` polls `GET /v1/devices` (or listens on WS) and prints
 "Paired with Pixel 8 ✅".

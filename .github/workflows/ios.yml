@@ -87,6 +87,10 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log"
 
+      - name: Compiler errors
+        if: failure()
+        run: grep -E "(error|warning: unable|fatal error):" "$RUNNER_TEMP/xcodebuild.log" | sort -u | head -150 || true
+
       - name: Upload build log
         if: failure()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

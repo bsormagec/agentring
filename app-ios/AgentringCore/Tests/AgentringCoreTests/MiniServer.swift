@@ -102,11 +102,20 @@ final class MiniServer: @unchecked Sendable {
         let wasRunning = running
         running = false
         let fds = clients
-        clients = []
         lock.unlock()
         guard wasRunning else { return }
-        for fd in fds { _ = close(fd) }
-        _ = close(listenFd)
+        // Only wake the threads up here: each fd is closed by the thread that owns it
+        // (serve / acceptLoop). Closing it from here could let the next test's server get
+        // the same fd number while an old thread still reads from or accepts on it.
+        for fd in fds { _ = Self.socketShutdown(fd) }
+    }
+
+    private static func socketShutdown(_ fd: Int32) -> Int32 {
+        #if canImport(Glibc)
+        return Glibc.shutdown(fd, Int32(SHUT_RDWR))
+        #else
+        return Darwin.shutdown(fd, SHUT_RDWR)
+        #endif
     }
 
     private var isRunning: Bool {
@@ -116,10 +125,12 @@ final class MiniServer: @unchecked Sendable {
     }
 
     private func acceptLoop() {
+        defer { _ = close(listenFd) }
         while isRunning {
             guard Self.waitReadable(listenFd, ms: 50) else { continue }
             let fd = accept(listenFd, nil, nil)
             if fd < 0 { continue }
+            guard isRunning else { _ = close(fd); break }
             #if canImport(Darwin)
             var yes: Int32 = 1
             setsockopt(fd, SOL_SOCKET, SO_NOSIGPIPE, &yes, socklen_t(MemoryLayout<Int32>.size))

@@ -46,7 +46,7 @@ final class AppModel {
         setupComplete = UserDefaults.standard.bool(forKey: Keys.setupComplete)
         introSeen = UserDefaults.standard.bool(forKey: Keys.introSeen)
         loadPairing()
-        NotificationCenter.default.addObserver(
+        _ = NotificationCenter.default.addObserver(
             forName: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil, queue: nil
         ) { _ in
             onMain { AppModel.shared.protectedDataAvailable() }
@@ -92,7 +92,9 @@ final class AppModel {
             pairingToken: qr.pairingToken,
             deviceName: AppInfo.deviceName(),
             appVersion: AppInfo.version,
-            apns: push.tokensForPairing()
+            // No tokens here: the relay may push through a gateway, which we only learn
+            // from the response; `ensureRegistered` below sends tokens or a handle.
+            apns: nil
         )
         let res = try await RelayApi(baseUrl: qr.relayUrl).pair(request)
         let settings: PushSettings? = res.pushConfig.map { config in

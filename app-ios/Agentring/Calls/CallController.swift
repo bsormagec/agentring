@@ -197,9 +197,10 @@ final class CallController {
 
     /// Asks CallKit to perform `action`; runs `fallback` when CallKit refuses.
     private func request(_ action: CXCallAction, fallback: @escaping @MainActor () -> Void) {
+        let name = String(describing: type(of: action))
         callKit.request(CXTransaction(action: action)) { error in
             guard let error else { return }
-            Log.calls.error("CallKit refused \(String(describing: type(of: action)), privacy: .public): \(String(describing: error), privacy: .public)")
+            Log.calls.error("CallKit refused \(name, privacy: .public): \(String(describing: error), privacy: .public)")
             onMain { fallback() }
         }
     }

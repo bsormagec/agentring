@@ -12,11 +12,10 @@ enum SharedConfig {
         infoString("AgentringAppGroup") ?? "group.dev.agentring.app"
     }
 
-    /// `<team prefix>.<bundle id>.shared`, or nil when the build didn't expand it.
+    /// `<team id>.<bundle id>.shared`. An unsigned build expands $(AppIdentifierPrefix)
+    /// to "", has no such entitlement, and `Keychain` falls back to the default group.
     static var keychainGroup: String? {
-        guard let group = infoString("AgentringKeychainGroup") else { return nil }
-        // An unsigned build expands $(AppIdentifierPrefix) to "": no team, no shared group.
-        return group.hasPrefix(".") ? nil : group
+        infoString("AgentringKeychainGroup")
     }
 
     /// The App Group container, or the app's own Application Support directory when the

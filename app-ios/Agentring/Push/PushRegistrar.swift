@@ -77,12 +77,6 @@ final class PushRegistrar {
 
     /// Both tokens for the pair request, when iOS already gave them (the pairing's
     /// `push_config` isn't known yet, so a gateway relay gets the handle right after).
-    func tokensForPairing() -> ApnsTokens? {
-        guard let voipToken, let alertToken else { return nil }
-        return ApnsTokens(voipToken: voipToken, alertToken: alertToken,
-                          environment: AppInfo.apnsEnvironment, topic: AppInfo.bundleId)
-    }
-
     /// The pairing changed: the next `ensureRegistered` uploads again.
     func pairingChanged() {
         uploaded = nil

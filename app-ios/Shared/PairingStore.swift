@@ -42,7 +42,7 @@ struct PushSettings: Codable, Equatable, Sendable {
 }
 
 /// Keychain storage of the pairing. Items are readable after the first unlock
-/// (`kSecAttrAccessibleAfterFirstUnlock`) so a VoIP push can be verified on a locked
+/// (`kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly`: never restored onto another phone) so a VoIP push can be verified on a locked
 /// phone, but not before the first unlock after a reboot.
 enum PairingStore {
     enum LoadResult: Equatable {
@@ -166,7 +166,7 @@ enum Keychain {
         let query = baseQuery(account: account, group: group)
         let attributes: [String: Any] = [
             kSecValueData as String: data,
-            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlock,
+            kSecAttrAccessible as String: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         ]
         var status = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
         if status == errSecItemNotFound {

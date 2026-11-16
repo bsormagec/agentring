@@ -100,6 +100,7 @@ private final class FakeConnection: WebSocketConnection, @unchecked Sendable {
 
 private final class FakeTransport: @unchecked Sendable {
     let connections = Recorder<FakeConnection>()
+    let created = Recorder<Date>()
     /// Runs for connection number `n` (0-based) right after it is created.
     var script: (Int, FakeConnection) -> Void = { _, _ in }
     var answerPings = true
@@ -109,6 +110,7 @@ private final class FakeTransport: @unchecked Sendable {
         c.answerPings = answerPings
         let n = connections.all.count
         connections.append(c)
+        created.append(Date())
         script(n, c)
         return c
     }
@@ -221,13 +223,21 @@ final class RelaySocketTests: XCTestCase {
 
     func testBackoffGrowsWhileNothingConnects() {
         let transport = FakeTransport()
-        transport.script = { _, c in c.close(code: 1006) }
+        let third = expectation(description: "third attempt")
+        transport.script = { n, c in
+            c.close(code: 1006)
+            if n == 2 { third.fulfill() }
+        }
         let cb = Callbacks()
         let s = socket(transport, cb, expected: "rly_1")
         s.start()
-        Thread.sleep(forTimeInterval: 2.0) // attempt 0 at once, 1 after ~1 s, 2 only after ~2 s more
+        wait(for: [third], timeout: 8) // ~1 s, then ~2 s
         s.stop()
-        XCTAssertEqual(transport.connections.all.count, 2)
+        let t = transport.created.all
+        XCTAssertEqual(t.count, 3)
+        let first = t[1].timeIntervalSince(t[0]), second = t[2].timeIntervalSince(t[1])
+        XCTAssertTrue((0.75...1.6).contains(first), "first retry after \(first) s")
+        XCTAssertTrue((1.55...3.0).contains(second), "second retry after \(second) s")
     }
 
     func testCloseCode4401IsUnauthorizedAndStopsReconnecting() {

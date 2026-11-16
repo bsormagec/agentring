@@ -1,0 +1,6 @@
+# SwiftPM / Xcode build output and generated files
+.build/
+*.xcodeproj
+xcuserdata/
+DerivedData/
+Local.xcconfig

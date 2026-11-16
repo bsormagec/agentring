@@ -1,0 +1,96 @@
+name: iOS
+
+on:
+  push:
+    paths:
+      - "app-ios/**"
+      - "protocol/**"
+      - ".github/workflows/ios.yml"
+  pull_request:
+    paths:
+      - "app-ios/**"
+      - "protocol/**"
+      - ".github/workflows/ios.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+# Actions are pinned by commit SHA (comment = release tag); bump them deliberately.
+permissions:
+  contents: read
+
+env:
+  # XcodeGen release zip, pinned by version and checksum (dependency policy in CLAUDE.md:
+  # 2.46.0 was tagged 2026-07-16). To bump: download the new xcodegen.zip, check the
+  # tag's date, and replace both values.
+  XCODEGEN_VERSION: "2.46.0"
+  XCODEGEN_SHA256: "4d9e34b62172d645eed6457cac13fc222569974098ef4ee9c3368bedf0196806"
+
+jobs:
+  core-macos:
+    name: AgentringCore tests (macOS)
+    runs-on: macos-15
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: Toolchain
+        run: xcodebuild -version && swift --version
+      - name: swift test
+        working-directory: app-ios/AgentringCore
+        run: swift test
+
+  core-linux:
+    name: AgentringCore tests (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # Official Swift image, pinned by digest (swift:6.1.2-noble). Its libcurl has no
+    # WebSocket support, so the URLSessionWebSocketTask tests skip here and run on macOS.
+    container:
+      image: swift:6.1.2-noble@sha256:9096456b6dd5f3dcb1f64152601de3d96f40e48ac98354fefa9ffa9abf2dd6bf
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: swift test
+        working-directory: app-ios/AgentringCore
+        run: swift test
+
+  app:
+    name: Build app (iOS Simulator)
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - name: Toolchain
+        run: xcodebuild -version
+
+      - name: Install XcodeGen
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/xcodegen.zip" \
+            "https://github.com/yonaskolb/XcodeGen/releases/download/${XCODEGEN_VERSION}/xcodegen.zip"
+          echo "${XCODEGEN_SHA256}  $RUNNER_TEMP/xcodegen.zip" | shasum -a 256 -c -
+          unzip -q "$RUNNER_TEMP/xcodegen.zip" -d "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/xcodegen/bin" >> "$GITHUB_PATH"
+
+      - name: Generate the Xcode project
+        working-directory: app-ios
+        run: xcodegen generate
+
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project app-ios/Agentring.xcodeproj \
+            -scheme Agentring \
+            -destination 'generic/platform=iOS Simulator' \
+            -derivedDataPath "$RUNNER_TEMP/DerivedData" \
+            CODE_SIGNING_ALLOWED=NO \
+            build 2>&1 | tee "$RUNNER_TEMP/xcodebuild.log"
+
+      - name: Upload build log
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: xcodebuild-log
+          path: ${{ runner.temp }}/xcodebuild.log
+          if-no-files-found: ignore

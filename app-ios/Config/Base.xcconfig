@@ -1,0 +1,24 @@
+// Shared build settings for the agentring iOS app and its extension.
+// Override AGENTRING_BUNDLE_ID / DEVELOPMENT_TEAM in Config/Local.xcconfig (git-ignored),
+// see Config/Local.xcconfig.example.
+
+// Bundle id of the app. The Notification Service Extension is
+// $(AGENTRING_BUNDLE_ID).NotificationService, the App Group group.$(AGENTRING_BUNDLE_ID)
+// and the shared keychain group $(AppIdentifierPrefix)$(AGENTRING_BUNDLE_ID).shared.
+// A relay can only wake the app if its APNs key belongs to the team that signs it and
+// its AGENTRING_APNS_TOPIC equals this id.
+AGENTRING_BUNDLE_ID = dev.agentring.app
+
+// Apple developer team (10 characters). Empty = sign locally only / unsigned CI builds.
+DEVELOPMENT_TEAM =
+CODE_SIGN_STYLE = Automatic
+
+MARKETING_VERSION = 0.2.0
+CURRENT_PROJECT_VERSION = 1
+
+IPHONEOS_DEPLOYMENT_TARGET = 17.0
+SWIFT_VERSION = 5.0
+SWIFT_STRICT_CONCURRENCY = minimal
+TARGETED_DEVICE_FAMILY = 1
+
+#include? "Local.xcconfig"

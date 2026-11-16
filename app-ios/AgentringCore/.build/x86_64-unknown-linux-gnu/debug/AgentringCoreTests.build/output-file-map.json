@@ -1,0 +1,53 @@
+{
+  "": {
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/master.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/MiniServer.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/ProtocolFixturesTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/PushVerifierTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayApiTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayIntegrationTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelaySocketTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayUrlPolicyTests.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swiftdeps"
+  },
+  "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/TestSupport.swift": {
+    "dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.d",
+    "object": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swift.o",
+    "swiftmodule": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport~partial.swiftmodule",
+    "swift-dependencies": "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swiftdeps"
+  }
+}

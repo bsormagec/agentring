@@ -1,0 +1,965 @@
+{
+  "builtTestProducts" : [
+    {
+      "binaryPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.xctest",
+      "packagePath" : "/home/user/agentring/app-ios/AgentringCore",
+      "productName" : "AgentringCorePackageTests"
+    }
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+    "AgentringCorePackageDiscoveredTests"
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.AgentringCore-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/opt/swift/usr/bin/swiftc",
+      "fileList" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/sources",
+      "importPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Crypto.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Event.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Protocol.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushGatewayClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushVerifier.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayApi.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelaySocket.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayUrlPolicy.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "AgentringCore",
+      "moduleOutputPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCore.swiftmodule",
+      "objects" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Crypto.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Event.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Protocol.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushGatewayClient.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushVerifier.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayApi.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelaySocket.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayUrlPolicy.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "agentringcore",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Crypto.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Event.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Protocol.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushGatewayClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushVerifier.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayApi.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelaySocket.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayUrlPolicy.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCore.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Crypto.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Event.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Protocol.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushGatewayClient.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushVerifier.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayApi.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelaySocket.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayUrlPolicy.swift"
+      ],
+      "tempsPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.AgentringCorePackageDiscoveredTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/opt/swift/usr/bin/swiftc",
+      "fileList" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/sources",
+      "importPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/AgentringCoreTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCoreTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "AgentringCorePackageDiscoveredTests",
+      "moduleOutputPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageDiscoveredTests.swiftmodule",
+      "objects" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/AgentringCoreTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/all-discovered-tests.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "agentringcore",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/AgentringCoreTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/all-discovered-tests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageDiscoveredTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/AgentringCoreTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift"
+      ],
+      "tempsPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.AgentringCorePackageTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/opt/swift/usr/bin/swiftc",
+      "fileList" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/sources",
+      "importPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCoreTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageDiscoveredTests.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "AgentringCorePackageTests",
+      "moduleOutputPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageTests.swiftmodule",
+      "objects" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/runner.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "agentringcore",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift"
+      ],
+      "tempsPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build",
+      "wholeModuleOptimization" : false
+    },
+    "C.AgentringCoreTests-x86_64-unknown-linux-gnu-debug.module" : {
+      "executable" : "/opt/swift/usr/bin/swiftc",
+      "fileList" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/sources",
+      "importPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/MiniServer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/ProtocolFixturesTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/PushVerifierTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayApiTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelaySocketTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayUrlPolicyTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/TestSupport.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCore.swiftmodule"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/sources"
+        }
+      ],
+      "isLibrary" : true,
+      "moduleName" : "AgentringCoreTests",
+      "moduleOutputPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCoreTests.swiftmodule",
+      "objects" : [
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swift.o",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "x86_64-unknown-linux-gnu",
+        "-enable-batch-mode",
+        "-index-store-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+        "-Onone",
+        "-enable-testing",
+        "-Xfrontend",
+        "-enable-cross-import-overlays",
+        "-j4",
+        "-DSWIFT_PACKAGE",
+        "-DDEBUG",
+        "-module-cache-path",
+        "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+        "-parseable-output",
+        "-parse-as-library",
+        "-swift-version",
+        "5",
+        "-g",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "agentringcore",
+        "-Xcc",
+        "-fno-omit-frame-pointer"
+      ],
+      "outputFileMapPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCoreTests.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/MiniServer.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/ProtocolFixturesTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/PushVerifierTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayApiTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayIntegrationTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelaySocketTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayUrlPolicyTests.swift",
+        "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/TestSupport.swift"
+      ],
+      "tempsPath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build",
+      "wholeModuleOptimization" : false
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "AgentringCore" : [
+      "/opt/swift/usr/bin/swiftc",
+      "-module-name",
+      "AgentringCore",
+      "-package-name",
+      "agentringcore",
+      "-incremental",
+      "-c",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Crypto.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Event.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Protocol.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushGatewayClient.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushVerifier.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayApi.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelaySocket.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayUrlPolicy.swift",
+      "-I",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-enable-batch-mode",
+      "-index-store-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-module-cache-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "agentringcore",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/opt/swift/usr/bin/swiftc"
+    ],
+    "AgentringCorePackageDiscoveredTests" : [
+      "/opt/swift/usr/bin/swiftc",
+      "-module-name",
+      "AgentringCorePackageDiscoveredTests",
+      "-package-name",
+      "agentringcore",
+      "-incremental",
+      "-c",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/AgentringCoreTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift",
+      "-I",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-enable-batch-mode",
+      "-index-store-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-module-cache-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "agentringcore",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/opt/swift/usr/bin/swiftc"
+    ],
+    "AgentringCorePackageTests" : [
+      "/opt/swift/usr/bin/swiftc",
+      "-module-name",
+      "AgentringCorePackageTests",
+      "-package-name",
+      "agentringcore",
+      "-incremental",
+      "-c",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift",
+      "-I",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-enable-batch-mode",
+      "-index-store-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-module-cache-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "agentringcore",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/opt/swift/usr/bin/swiftc"
+    ],
+    "AgentringCoreTests" : [
+      "/opt/swift/usr/bin/swiftc",
+      "-module-name",
+      "AgentringCoreTests",
+      "-package-name",
+      "agentringcore",
+      "-incremental",
+      "-c",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/MiniServer.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/ProtocolFixturesTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/PushVerifierTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayApiTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayIntegrationTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelaySocketTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayUrlPolicyTests.swift",
+      "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/TestSupport.swift",
+      "-I",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules",
+      "-target",
+      "x86_64-unknown-linux-gnu",
+      "-enable-batch-mode",
+      "-index-store-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/index/store",
+      "-Onone",
+      "-enable-testing",
+      "-Xfrontend",
+      "-enable-cross-import-overlays",
+      "-j4",
+      "-DSWIFT_PACKAGE",
+      "-DDEBUG",
+      "-module-cache-path",
+      "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/ModuleCache",
+      "-parseable-output",
+      "-parse-as-library",
+      "-swift-version",
+      "5",
+      "-g",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "agentringcore",
+      "-Xcc",
+      "-fno-omit-frame-pointer",
+      "-driver-use-frontend-path",
+      "/opt/swift/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "AgentringCore" : [
+
+    ],
+    "AgentringCorePackageDiscoveredTests" : [
+      "AgentringCoreTests",
+      "AgentringCore"
+    ],
+    "AgentringCorePackageTests" : [
+      "AgentringCorePackageDiscoveredTests",
+      "AgentringCoreTests",
+      "AgentringCore"
+    ],
+    "AgentringCoreTests" : [
+      "AgentringCore"
+    ]
+  },
+  "testDiscoveryCommands" : {
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swift.o"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/AgentringCoreTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift"
+        }
+      ]
+    }
+  },
+  "testEntryPointCommands" : {
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift" : {
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/Modules/AgentringCorePackageDiscoveredTests.swiftmodule"
+        }
+      ],
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift"
+        }
+      ]
+    }
+  },
+  "traitConfiguration" : {
+    "enableAllTraits" : false
+  },
+  "writeCommands" : {
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Crypto.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Event.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/Protocol.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushGatewayClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/PushVerifier.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayApi.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelaySocket.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Sources/AgentringCore/RelayUrlPolicy.swift"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/sources"
+    },
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/AgentringCoreTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.derived/all-discovered-tests.swift"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/sources"
+    },
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.derived/runner.swift"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/sources"
+    },
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/AgentringCore.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Crypto.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Event.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/Protocol.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushGatewayClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/PushVerifier.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayApi.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelaySocket.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCore.build/RelayUrlPolicy.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/AgentringCorePackageDiscoveredTests.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/AgentringCoreTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageDiscoveredTests.build/all-discovered-tests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/AgentringCorePackageTests.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.build/runner.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/AgentringCoreTests.swiftmodule.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/MiniServer.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/ProtocolFixturesTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/PushVerifierTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayApiTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayIntegrationTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelaySocketTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/RelayUrlPolicyTests.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/TestSupport.swift.o"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCorePackageTests.product/Objects.LinkFileList"
+    },
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/MiniServer.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/ProtocolFixturesTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/PushVerifierTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayApiTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayIntegrationTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelaySocketTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/RelayUrlPolicyTests.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/home/user/agentring/app-ios/AgentringCore/Tests/AgentringCoreTests/TestSupport.swift"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/AgentringCoreTests.build/sources"
+    },
+    "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/opt/swift/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/home/user/agentring/app-ios/AgentringCore/.build/x86_64-unknown-linux-gnu/debug/swift-version-6A52383ED409C6A7.txt"
+    }
+  }
+}

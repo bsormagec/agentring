@@ -1,0 +1,8 @@
+// Copy to Config/Local.xcconfig (git-ignored) and fill in, then run `xcodegen generate`.
+
+// Your Apple developer team id (Xcode → Settings → Accounts, or developer.apple.com → Membership).
+DEVELOPMENT_TEAM = ABCDE12345
+
+// Your own bundle id if you build the app yourself (it must be unique in your team).
+// Your relay must push to it: AGENTRING_APNS_TOPIC=<this id> with an APNs key of the same team.
+// AGENTRING_BUNDLE_ID = com.example.agentring

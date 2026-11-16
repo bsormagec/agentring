@@ -1,10 +1,9 @@
 # iOS app (design)
 
-> Status: **draft for review**. Nothing here is implemented yet. The decisions marked
-> *(needs OK)* change the accepted design in `docs/architecture.md` /
-> `docs/protocol.md` and wait for the maintainer's approval. Once accepted, the
-> protocol changes go into `protocol/relay.openapi.yaml` first (it is the single
-> source of truth), then into the relay, the daemon and the apps.
+> Status: **accepted and being implemented** (2026-11-16). The fork owner asked to
+> take every open decision and build it all at once; the decisions are recorded in
+> [Decisions](#decisions). The protocol changes are in `protocol/relay.openapi.yaml`
+> and `protocol/push-gateway.openapi.yaml`; the app lives in `app-ios/`.
 
 ## Goal
 
@@ -389,16 +388,21 @@ app-ios/
 Each phase ends with a stop, test instructions and the maintainer's OK, as for
 M1–M5.
 
-## Open decisions
+## Decisions
 
-1. **Publisher and push distribution:** who publishes the App Store app (and so
-   holds the APNs key and would run the gateway)? Gateway yes or no, or iOS only
-   with the cloud and self-built apps.
-2. **Bundle id:** reuse `dev.agentring.app`, or a different one.
-3. **Encrypted push payloads (`v: "2"`)** for both platforms, or keep v1 (signed,
-   readable by Google/Apple).
-4. **XcodeGen** or a committed `.xcodeproj`.
-5. **Minimum iOS version** (proposed 17).
-6. To check on a device before I2 is closed: the app keeps running for the whole
-   ring (cancel over WebSocket works without a VoIP push), and what happens before
-   the first unlock.
+Taken on 2026-11-16 (the sections marked *(needs OK)* above are accepted as written):
+
+1. **Push distribution:** all three paths. The relay pushes directly with an APNs
+   key (cloud / hub mode and self-hosters with their own build) or through a push
+   gateway (self-hosted relay + App Store app). The gateway is a relay mode
+   (`AGENTRING_PUSH_GATEWAY=1`), contract in `protocol/push-gateway.openapi.yaml`.
+   Whoever publishes the App Store build runs it.
+2. **Bundle id:** a build setting, `AGENTRING_BUNDLE_ID` (default
+   `dev.agentring.app`); the relay's `AGENTRING_APNS_TOPIC` must match it, and the
+   app warns when `push_config.apns.topic` differs.
+3. **Payloads stay v1** (signed, not encrypted), the same as on Android. Encryption
+   can come later for both platforms at once.
+4. **XcodeGen** (`app-ios/project.yml`); the `.xcodeproj` is generated, not committed.
+5. **Minimum iOS 17.**
+6. **Ring cancel without a VoIP push** (WebSocket + 2 s poll + local timer). To
+   confirm on a device in I2, together with the before-first-unlock case.

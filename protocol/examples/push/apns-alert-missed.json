@@ -1,0 +1,32 @@
+{
+  "description": "APNs alert push for call.missed of an urgent agent call: collapse id = call_id, time-sensitive because the invite was urgent.",
+  "push_secret": "q8Vx0m3cJ5a1n1wYg7Kc9b2dE4fH6iL8oP0rS2tU4vA",
+  "path": "/3/device/<token>",
+  "headers": {
+    "apns-push-type": "alert",
+    "apns-topic": "dev.agentring.app",
+    "apns-priority": "10",
+    "apns-expiration": "1761286430",
+    "apns-collapse-id": "call_01JB0000000000000000000002"
+  },
+  "headers_note": "apns-expiration = now + 24 h (here: the event ts + 24 h); apns-collapse-id = call_id.",
+  "payload": {
+    "aps": {
+      "alert": {
+        "title": "Claude",
+        "body": "Missed call"
+      },
+      "mutable-content": 1,
+      "sound": "default",
+      "thread-id": "rly_01JB0000000000000000000010",
+      "category": "AGENTRING_MISSED",
+      "interruption-level": "time-sensitive"
+    },
+    "agentring": {
+      "v": "1",
+      "relay_id": "rly_01JB0000000000000000000010",
+      "event": "{\"type\":\"call.missed\",\"id\":\"evt_01JB000000000000000000000A\",\"ts\":1761200030000,\"seq\":43,\"call_id\":\"call_01JB0000000000000000000002\"}",
+      "sig": "l4jDXbcmPbjb-OihPl7mfY4_2BdiW-vkE7uN-taeBQ4"
+    }
+  }
+}

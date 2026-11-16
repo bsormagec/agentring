@@ -1,0 +1,110 @@
+openapi: 3.1.0
+info:
+  title: agentring push gateway
+  version: 1.0.0
+  description: |
+    Lets a self-hosted relay push to the App Store build of the iOS app, whose APNs
+    key only the app's publisher holds. The publisher runs the gateway (the relay in
+    gateway mode, `AGENTRING_PUSH_GATEWAY=1`). See docs/ios.md#push-distribution.
+
+    1. The iOS app registers its APNs tokens with the gateway and gets an opaque
+       `handle` (the tokens encrypted with the gateway's key; the gateway stores
+       nothing per device).
+    2. The app gives the handle to its relay (`POST /v1/pair` or
+       `/v1/device/push-tokens`, field `apns.gateway_handle`).
+    3. The relay sends pushes through the gateway with that handle. The payload is the
+       relay's usual signed `ApnsPayload`; the app verifies `agentring.sig`, so the
+       gateway can't forge events.
+
+    Abuse limits: per-handle rate limits (VoIP pushes are the scarce ones) and a
+    per-IP limit. A leaked handle can at most make the app receive pushes it then
+    rejects (a VoIP push that fails verification is reported to CallKit and ended
+    at once).
+servers:
+  - url: https://push.agentring.io
+paths:
+  /v1/register:
+    post:
+      operationId: registerDevice
+      summary: Exchange APNs tokens for an opaque handle (called by the iOS app).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [environment, topic]
+              properties:
+                voip_token: { type: string, pattern: "^[0-9a-fA-F]{16,200}$" }
+                alert_token: { type: string, pattern: "^[0-9a-fA-F]{16,200}$" }
+                environment: { type: string, enum: [sandbox, production] }
+                topic: { type: string, description: "The app's bundle id; must equal the gateway's." }
+      responses:
+        "200":
+          description: Handle for the relay.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [handle]
+                properties:
+                  handle: { type: string, description: "base64url; opaque to everyone but the gateway." }
+        "400": { $ref: "#/components/responses/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+  /v1/send:
+    post:
+      operationId: send
+      summary: Send one APNs push (called by a relay).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [handle, push_type, payload, expiration]
+              properties:
+                handle: { type: string }
+                push_type: { type: string, enum: [voip, alert, background] }
+                payload:
+                  description: "`ApnsPayload` from relay.openapi.yaml (≤ 5120 bytes for voip, 4096 otherwise)."
+                  type: object
+                expiration: { type: integer, description: "UNIX seconds; 0 = deliver once or drop." }
+                collapse_id: { type: string, maxLength: 64 }
+      responses:
+        "200":
+          description: Accepted by APNs.
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok]
+                properties:
+                  ok: { const: true }
+        "400": { $ref: "#/components/responses/Error" }
+        "410":
+          description: APNs says the token is no longer valid; the relay drops the handle.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Error" }
+        "429": { $ref: "#/components/responses/Error" }
+        "502": { $ref: "#/components/responses/Error" }
+components:
+  responses:
+    Error:
+      description: Error.
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/Error" }
+  schemas:
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string, examples: [invalid_request, invalid_handle, unregistered, rate_limited, apns_error] }
+            message: { type: string }

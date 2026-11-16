@@ -24,6 +24,12 @@ services:
       AGENTRING_AGENT_NAME: ${AGENTRING_AGENT_NAME:-Agent}
       FCM_SERVICE_ACCOUNT_FILE: /secrets/firebase-service-account.json
       FCM_GOOGLE_SERVICES_FILE: /secrets/google-services.json
+      # iOS push (APNs, docs/apns.md): the .p8 key goes in the secrets folder.
+      AGENTRING_APNS_KEY_FILE: ${AGENTRING_APNS_KEY_FILE:-}
+      AGENTRING_APNS_KEY_ID: ${AGENTRING_APNS_KEY_ID:-}
+      AGENTRING_APNS_TEAM_ID: ${AGENTRING_APNS_TEAM_ID:-}
+      AGENTRING_APNS_TOPIC: ${AGENTRING_APNS_TOPIC:-}
+      AGENTRING_APNS_GATEWAY_URL: ${AGENTRING_APNS_GATEWAY_URL:-}
       LIVEKIT_URL: wss://${AGENTRING_DOMAIN}
       # An alias on the private network: the shared "coolify" network has other tenants' services on it.
       LIVEKIT_API_URL: http://agentring-livekit:7880
@@ -32,6 +38,8 @@ services:
     volumes:
       - relay-data:/data
       - /opt/agentring/relay:/secrets:ro
+      # Or mount the APNs .p8 key on its own (then AGENTRING_APNS_KEY_FILE=/run/apns/AuthKey.p8):
+      #- ./AuthKey_XXXXXXXXXX.p8:/run/apns/AuthKey.p8:ro
     expose: ["8080"]
     networks: [agentring, coolify]
     labels:

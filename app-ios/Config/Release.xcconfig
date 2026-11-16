@@ -1,0 +1,5 @@
+#include "Base.xcconfig"
+
+// APNs production environment: TestFlight and App Store builds.
+// The app reports environment "production" to the relay (see AppInfo.apnsEnvironment).
+AGENTRING_APS_ENVIRONMENT = production

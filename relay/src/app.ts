@@ -4,7 +4,7 @@ import { join } from "node:path";
 import websocket from "@fastify/websocket";
 import Fastify, { type FastifyInstance, type FastifyServerOptions } from "fastify";
 import { Auth, sha256 } from "./auth.js";
-import { type Config, dbPath, trustedHops } from "./config.js";
+import { type Config, dbPath, IOS_BUNDLE_ID, trustedHops } from "./config.js";
 import type { Ctx } from "./context.js";
 import { type Db, metaOrInit, openDatabase } from "./db/database.js";
 import { ApiError } from "./errors.js";
@@ -13,7 +13,9 @@ import { newId, randomToken } from "./ids.js";
 import { LiveKitServer, type LiveKitService } from "./livekit.js";
 import type { PushConfig } from "./protocol.js";
 import { type Limits, UNLIMITED } from "./quota.js";
-import { PushDispatcher } from "./push/dispatcher.js";
+import { ApnsProvider } from "./push/apns.js";
+import { ApnsGatewayProvider } from "./push/apns-gateway.js";
+import { PushDispatcher, type PushProviders } from "./push/dispatcher.js";
 import { FcmProvider } from "./push/fcm.js";
 import type { PushProvider } from "./push/push-provider.js";
 import { Calls, callRoutes, targetsOf } from "./routes/calls.js";
@@ -24,8 +26,12 @@ import { WsHub, wsRoutes } from "./routes/ws.js";
 
 export interface BuildOptions {
   logger?: FastifyServerOptions["logger"];
-  /** Inject a push provider (tests). Defaults to FCM when configured. */
+  /** Inject the Android push provider (tests, hub). Defaults to FCM when configured. */
   pushProvider?: PushProvider;
+  /** Inject the direct APNs provider (tests, hub). Defaults to APNs when its key is configured. */
+  apnsProvider?: PushProvider;
+  /** Inject the push-gateway provider (tests, hub). Defaults to the configured gateway URL. */
+  apnsGatewayProvider?: PushProvider;
   /** Inject LiveKit (tests). Defaults to the configured server, if any. */
   livekit?: LiveKitService;
   /** A pino-compatible logger to use instead of creating one (hub mode: a child per tenant). */
@@ -101,10 +107,19 @@ export async function buildApp(cfg: Config, opts: BuildOptions = {}): Promise<Bu
   });
   await app.register(websocket, { options: { maxPayload: 64 * 1024 } });
 
-  const provider: PushProvider | undefined =
-    opts.pushProvider ?? (cfg.fcm ? new FcmProvider(cfg.fcm.serviceAccountFile, cfg.fcm.apiBase) : undefined);
-  const pushConfig: PushConfig = cfg.fcm ? { provider: "fcm", fcm: cfg.fcm.client } : null;
-  if (!provider && !opts.tenant) app.log.warn("Push is not configured: the phone will only get events while the app is open");
+  // Providers built here (not injected by a test or shared by the hub) are closed with the app.
+  const owned: PushProvider[] = [];
+  const own = <T extends PushProvider>(p: T): T => (owned.push(p), p);
+  const providers: PushProviders = {
+    fcm: opts.pushProvider ?? (cfg.fcm ? own(new FcmProvider(cfg.fcm.serviceAccountFile, cfg.fcm.apiBase)) : undefined),
+    apns: opts.apnsProvider ?? (cfg.apns ? own(new ApnsProvider(cfg.apns)) : undefined),
+    apnsGateway:
+      opts.apnsGatewayProvider ?? (cfg.apnsGateway ? own(new ApnsGatewayProvider(cfg.apnsGateway.url, cfg.apnsGateway.topic)) : undefined),
+  };
+  const pushProviders = pushProviderNames(providers);
+  const androidPush: PushConfig = cfg.fcm ? { provider: "fcm", fcm: cfg.fcm.client } : null;
+  const iosPush = iosPushConfig(cfg, providers);
+  if (!pushProviders.length && !opts.tenant) app.log.warn("Push is not configured: the phone will only get events while the app is open");
 
   const events = new EventLog(db);
   const ctx: Ctx = {
@@ -114,8 +129,9 @@ export async function buildApp(cfg: Config, opts: BuildOptions = {}): Promise<Bu
     auth: new Auth(db, apiKeyHash, jwtSecret, relayId, opts.tenant?.agentToken),
     events,
     relayId,
-    pushConfig,
-    pushProviderName: provider?.name ?? "none",
+    pushConfigFor: (platform) => (platform === "ios" ? iosPush : androidPush),
+    pushProviders,
+    pushProviderName: providers.fcm?.name ?? pushProviders[0] ?? "none",
     hub: new WsHub(events),
     livekit: opts.livekit ?? (cfg.livekit ? new LiveKitServer(cfg.livekit) : undefined),
     limits: opts.tenant?.limits ?? (() => UNLIMITED),
@@ -126,10 +142,17 @@ export async function buildApp(cfg: Config, opts: BuildOptions = {}): Promise<Bu
   ctx.calls = calls;
   events.setVisibility((e, p) => calls.eventVisibleTo(e, p));
 
-  const dispatcher = new PushDispatcher(db, provider, relayId, app.log, (id) => {
-    const c = calls.get(id);
-    return c && { direction: c.direction, device_ids: targetsOf(c) };
-  });
+  const dispatcher = new PushDispatcher(
+    db,
+    providers,
+    relayId,
+    app.log,
+    (id) => {
+      const c = calls.get(id);
+      return c && { direction: c.direction, device_ids: targetsOf(c), priority: c.priority, agent_name: c.agent_name };
+    },
+    cfg.agentName,
+  );
   events.onEvent((e) => dispatcher.handle(e));
 
   app.setErrorHandler((err, req, reply) => {
@@ -155,15 +178,32 @@ export async function buildApp(cfg: Config, opts: BuildOptions = {}): Promise<Bu
   messageRoutes(app, ctx);
   callRoutes(app, ctx, calls);
   calls.resume();
-  // Fetch the FCM access token now so the first call's push doesn't wait for it.
-  void provider?.prepare?.().catch((err: unknown) => app.log.warn({ err }, "push provider warm-up failed"));
+  // Fetch the FCM access token (sign the APNs token) now so the first call's push doesn't wait for it.
+  for (const p of owned) void p.prepare?.().catch((err: unknown) => app.log.warn({ err }, "push provider warm-up failed"));
   wsRoutes(app, ctx);
 
   app.addHook("onClose", async () => {
     calls.stop();
     ctx.hub.closeAll();
+    for (const p of owned) await p.close?.();
     db.close();
   });
 
   return { app, ctx, apiKey, apiKeyGenerated: generated };
+}
+
+/** `Status.push_providers`: what this relay can push with. */
+export function pushProviderNames(p: PushProviders): Array<"fcm" | "apns" | "apns_gateway"> {
+  return [...(p.fcm ? ["fcm" as const] : []), ...(p.apns ? ["apns" as const] : []), ...(p.apnsGateway ? ["apns_gateway" as const] : [])];
+}
+
+/** `push_config` for an iOS pair request: direct APNs first, else the push gateway, else none. */
+function iosPushConfig(cfg: Config, p: PushProviders): PushConfig {
+  const topic = cfg.apns?.topic ?? cfg.apnsGateway?.topic ?? IOS_BUNDLE_ID;
+  if (p.apns) return { provider: "apns", apns: { topic, via_gateway: false } };
+  if (p.apnsGateway) {
+    const url = cfg.apnsGateway?.url ?? (p.apnsGateway instanceof ApnsGatewayProvider ? p.apnsGateway.gatewayUrl : undefined);
+    return { provider: "apns", apns: { topic, via_gateway: true, ...(url ? { gateway_url: url } : {}) } };
+  }
+  return null;
 }

@@ -99,6 +99,28 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/device/push-tokens": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Update the calling device's push tokens (iOS / APNs; FCM may use it too).
+         * @description Replaces the given provider's tokens for the calling device. Android keeps
+         *     using `/v1/device/fcm`; iOS sends its APNs tokens (direct) or the handle it got
+         *     from a push gateway (see `protocol/push-gateway.openapi.yaml`).
+         */
+        post: operations["updatePushTokens"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/devices": {
         parameters: {
             query?: never;
@@ -493,8 +515,13 @@ export interface components {
             version: string;
             agent_name: string;
             agent_online: boolean;
-            /** @example fcm */
+            /**
+             * @description Deprecated, kept for old clients; the first of `push_providers` (or "none").
+             * @example fcm
+             */
             push_provider: string;
+            /** @description Push providers this relay can send with. */
+            push_providers: ("fcm" | "apns" | "apns_gateway")[];
             /** @description Only returned to the agent. */
             device_count?: number;
             /** @description The call currently ringing or active, if any. */
@@ -524,9 +551,11 @@ export interface components {
             pairing_token: string;
             /** @description May be omitted if not yet available; send later via /v1/device/fcm. */
             fcm_token?: string;
+            /** @description iOS only. May be omitted and sent later via /v1/device/push-tokens. */
+            apns?: components["schemas"]["ApnsTokens"];
             device_name: string;
             /** @enum {string} */
-            platform: "android";
+            platform: "android" | "ios";
             app_version?: string;
         };
         PairResponse: {
@@ -539,10 +568,15 @@ export interface components {
             push_config: components["schemas"]["PushConfig"];
         };
         /**
-         * @description How the app should register for push. Lets one prebuilt APK work with
-         *     any user's own Firebase project: the app initialises Firebase at
-         *     runtime with these public client values instead of a compiled-in
-         *     google-services.json. `null` when the relay has no push configured.
+         * @description How the app should register for push, chosen by the `platform` of the pair
+         *     request. Android (`fcm`): lets one prebuilt APK work with any user's own
+         *     Firebase project: the app initialises Firebase at runtime with these public
+         *     client values instead of a compiled-in google-services.json. iOS (`apns`):
+         *     `topic` is the bundle id the relay's APNs key can reach; the app compares it
+         *     with its own and warns when they differ. `via_gateway` = the relay pushes
+         *     through a push gateway, so the app must register there first and send the
+         *     handle (`gateway_url`). `null` when the relay has no push configured for the
+         *     platform: the app then only gets events while it is open.
          */
         PushConfig: null | {
             /** @constant */
@@ -555,12 +589,41 @@ export interface components {
                 /** @description project_number */
                 sender_id: string;
             };
+        } | {
+            /** @constant */
+            provider: "apns";
+            apns: {
+                /** @description Bundle id, e.g. dev.agentring.app */
+                topic: string;
+                via_gateway: boolean;
+                /**
+                 * Format: uri
+                 * @description Base URL of the push gateway; only when `via_gateway`.
+                 */
+                gateway_url?: string;
+            };
+        };
+        /**
+         * @description A device's APNs registration. Either direct tokens (the relay holds an APNs
+         *     key for the app's bundle id) or a `gateway_handle` from a push gateway.
+         *     Tokens are the hex strings iOS gives (`PKPushCredentials.token` for VoIP,
+         *     `registerForRemoteNotifications` for alerts). `environment` picks the APNs
+         *     host: `sandbox` for debug builds, `production` for TestFlight / App Store.
+         */
+        ApnsTokens: {
+            voip_token?: string;
+            alert_token?: string;
+            /** @enum {string} */
+            environment?: "sandbox" | "production";
+            /** @description The app's bundle id. */
+            topic?: string;
+            gateway_handle?: string;
         };
         Device: {
             device_id: components["schemas"]["DeviceId"];
             name: string;
             /** @enum {string} */
-            platform: "android";
+            platform: "android" | "ios";
             app_version?: string;
             created_at: components["schemas"]["Timestamp"];
             last_seen_at?: components["schemas"]["Timestamp"];
@@ -821,6 +884,8 @@ export interface components {
         /**
          * @description The FCM `data` map (all values are strings). `event` is the compact JSON
          *     of an `Event`; `sig` = base64url(HMAC-SHA256(push_secret, event)).
+         *     On APNs the same object is the `agentring` key of the payload, next to
+         *     `aps` (see `ApnsPayload`).
          */
         PushData: {
             /** @constant */
@@ -828,6 +893,19 @@ export interface components {
             relay_id: components["schemas"]["RelayId"];
             event: string;
             sig: string;
+        };
+        /**
+         * @description The JSON body of an APNs push to an iOS device. `voip` pushes (`call.invite`
+         *     only) carry an empty `aps`; `alert` pushes (`msg.new`, `call.missed`) carry a
+         *     placeholder alert that the app's Notification Service Extension replaces after
+         *     verifying `agentring.sig`; `background` pushes (`call.accept`) carry
+         *     `content-available: 1`.
+         */
+        ApnsPayload: {
+            aps: {
+                [key: string]: unknown;
+            };
+            agentring: components["schemas"]["PushData"];
         };
     };
     responses: {
@@ -1019,6 +1097,33 @@ export interface operations {
             content: {
                 "application/json": {
                     fcm_token: string;
+                };
+            };
+        };
+        responses: {
+            /** @description Updated. */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            400: components["responses"]["BadRequest"];
+            401: components["responses"]["Unauthorized"];
+        };
+    };
+    updatePushTokens: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": {
+                    fcm_token?: string;
+                    apns?: components["schemas"]["ApnsTokens"];
                 };
             };
         };

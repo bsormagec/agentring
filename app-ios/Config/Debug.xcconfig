@@ -1,0 +1,5 @@
+#include "Base.xcconfig"
+
+// APNs development environment: Xcode debug builds get sandbox device tokens.
+// The app reports environment "sandbox" to the relay (see AppInfo.apnsEnvironment).
+AGENTRING_APS_ENVIRONMENT = development

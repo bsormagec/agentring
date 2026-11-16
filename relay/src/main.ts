@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { buildApp } from "./app.js";
 import { loadConfig } from "./config.js";
+import { buildGateway } from "./gateway/gateway.js";
 import { buildHub } from "./hub/hub.js";
 
 const cfg = loadConfig();
@@ -14,7 +15,13 @@ function shutdownOn(close: () => Promise<unknown>, log: { info: (o: object, m: s
   }
 }
 
-if (process.env.AGENTRING_HUB === "1") {
+if (cfg.pushGateway) {
+  // Push gateway mode (docs/apns.md): only /v1/register, /v1/send and /healthz.
+  const { app } = await buildGateway(cfg);
+  shutdownOn(() => app.close(), app.log);
+  await app.listen({ host: cfg.host, port: cfg.port });
+  app.log.info({ topic: cfg.apns?.topic }, "agentring push gateway ready");
+} else if (process.env.AGENTRING_HUB === "1") {
   // Hub mode (docs/cloud.md): many tenants under /t/{tenant_id}, managed through the admin API.
   const file = process.env.AGENTRING_HUB_ADMIN_TOKEN_FILE;
   const adminToken = (file ? readFileSync(file, "utf8") : (process.env.AGENTRING_HUB_ADMIN_TOKEN ?? "")).trim();
@@ -33,7 +40,7 @@ if (process.env.AGENTRING_HUB === "1") {
   shutdownOn(() => app.close(), app.log);
   await app.listen({ host: cfg.host, port: cfg.port });
   app.log.info(
-    { relay_id: ctx.relayId, public_url: cfg.publicUrl, push: ctx.pushProviderName },
+    { relay_id: ctx.relayId, public_url: cfg.publicUrl, push: ctx.pushProviderName, push_providers: ctx.pushProviders },
     "agentring relay ready",
   );
 }

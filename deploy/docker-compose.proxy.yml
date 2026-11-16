@@ -33,6 +33,12 @@ services:
       AGENTRING_API_KEY: ${AGENTRING_API_KEY:-}
       FCM_SERVICE_ACCOUNT_FILE: /secrets/firebase-service-account.json
       FCM_GOOGLE_SERVICES_FILE: /secrets/google-services.json
+      # iOS push (APNs, docs/apns.md): the .p8 key goes in the secrets folder.
+      AGENTRING_APNS_KEY_FILE: ${AGENTRING_APNS_KEY_FILE:-}
+      AGENTRING_APNS_KEY_ID: ${AGENTRING_APNS_KEY_ID:-}
+      AGENTRING_APNS_TEAM_ID: ${AGENTRING_APNS_TEAM_ID:-}
+      AGENTRING_APNS_TOPIC: ${AGENTRING_APNS_TOPIC:-}
+      AGENTRING_APNS_GATEWAY_URL: ${AGENTRING_APNS_GATEWAY_URL:-}
       LIVEKIT_URL: wss://${AGENTRING_DOMAIN}
       LIVEKIT_API_URL: http://livekit:7880
       LIVEKIT_API_KEY: ${LIVEKIT_API_KEY:?set LIVEKIT_API_KEY}
@@ -40,6 +46,8 @@ services:
     volumes:
       - relay-data:/data
       - ${AGENTRING_RELAY_SECRETS:-/opt/agentring/relay}:/secrets:ro
+      # Or mount the APNs .p8 key on its own (then AGENTRING_APNS_KEY_FILE=/run/apns/AuthKey.p8):
+      #- ./AuthKey_XXXXXXXXXX.p8:/run/apns/AuthKey.p8:ro
     ports:
       - "127.0.0.1:8095:8080"
     networks: [agentring]
